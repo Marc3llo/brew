@@ -1,4 +1,4 @@
-# Brew 0.9
+# Brew 0.5
 __A Wordpress starter theme based on Bones and Bootstrap 3__
 
 Created by **Dan Brown**: http://danvswild.com
@@ -22,41 +22,27 @@ footer screenshot:
 
 Features:
 * LESS
+* SASS (thanks [garrettboatman](https://github.com/garrettboatman)!
 * Bootstrap 3
 * Bones
 * sidebar and footer widgets
 * Very clean out-of-the-box experience
 * pagination
-* breadcrumbs
-* Font Awesome
-* Redux Options Framework
-* Easy to add metaboxes
-
-Updates since v.6:
-* Updated to Bootstrap 3.1
-* Added FitVid to make video embeds responsive
-* Removed SASS for now (need to figure out how to keep it up to date)
-* added author profile box
-* updated default styles
-* organized LESS files
-* Added recommended CSS from wordpress for image alignment, text alignment, etc
-* Updated FontAwesome to v.4
-* Various Bug Fixes
-* Bunch of other stuff I can't remember
+* breadcrumbs (just uncomment in the page templates)
+* Font Awesome 
 
 
 To use:
 1. download zip and upload as wordpress theme.
-2. set your variables at /less/custom-variables.less
-3. add customize and add new LESS files in /less/brew
+2. set you variables at /less/custom-variables.less
+3. add custom LESS/CSS at /less/custom.less
+2. Decide if you want breadcrumbs (uncomment on pages where you want it)
+3. Decide if you want Redux options framework (uncomment in functions.php)
 
 
-To do before v1.0:
-* Combine JS files
-* Look in to combining functions.php/brew.php/bones.php
-* Finalize all included pages/php files.  Not all have been updated.
-* Set up Grunt
-
+To do:
+* clean up custom.less
+* Set up (just a few) options using Redux
 
 
 Providing credit where credit is due:
@@ -69,4 +55,3 @@ Providing credit where credit is due:
 * [mkoerner](http://mkoerner.de/breadcrumbs-for-wordpress-themes-with-bootstrap-3/) (breadcrumbs)
 * [Font Awesome](https://github.com/FortAwesome/Font-Awesome)
 * [Jeredatch](https://github.com/jaredatch/Custom-Metaboxes-and-Fields-for-WordPress) (Custom metaboxes and fields)
-* [FitVid](https://github.com/davatron5000/FitVids.js) (Making video embeds responsive)

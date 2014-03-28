@@ -127,21 +127,16 @@ function bones_scripts_and_styles() {
 
     // js bootstrap
     // download a custom file @ getbootstrap.com/customize/ if you don't want all js components
-    wp_register_script( 'bones-bootstrap', get_template_directory_uri() . '/library/js/libs/bootstrap.min.js', array(), '3.0.0', true );
+    wp_register_script( 'bones-bootstrap', get_stylesheet_directory_uri() . '/library/js/libs/bootstrap.min.js', array(), '3.0.0', true );
 
     // modernizr (without media query polyfill)
-    wp_register_script( 'bones-modernizr', get_template_directory_uri() . '/library/js/libs/modernizr.custom.min.js', array(), '2.5.3', false );
+    wp_register_script( 'bones-modernizr', get_stylesheet_directory_uri() . '/library/js/libs/modernizr.custom.min.js', array(), '2.5.3', false );
 
     // register main stylesheet
-    wp_register_style( 'bones-stylesheet', get_template_directory_uri() . '/library/css/style.css', array(), '', 'all' );
+    wp_register_style( 'bones-stylesheet', get_stylesheet_directory_uri() . '/library/css/style.css', array(), '', 'all' );
 
     // ie-only style sheet
-    wp_register_style( 'bones-ie-only', get_template_directory_uri() . '/library/css/ie.css', array(), '' );
-
-    // FitVid (responsive video)
-    wp_register_script( 'fitvids', get_template_directory_uri() . '/library/js/libs/FitVids.js-master/jquery.fitvids.js', array('jquery'), '', TRUE );
-    wp_register_script( 'fitvids-xtra', get_template_directory_uri() . '/library/js/fitvid.js', array(), '', TRUE );
-
+    wp_register_style( 'bones-ie-only', get_stylesheet_directory_uri() . '/library/css/ie.css', array(), '' );
 
     // comment reply script for threaded comments
     if ( is_singular() AND comments_open() AND (get_option('thread_comments') == 1)) {
@@ -149,8 +144,10 @@ function bones_scripts_and_styles() {
     }
 
     //adding scripts file in the footer
-    wp_register_script( 'bones-js', get_template_directory_uri() . '/library/js/scripts.js', array( 'jquery' ), '', true );
+    wp_register_script( 'bones-js', get_stylesheet_directory_uri() . '/library/js/scripts.js', array( 'jquery' ), '', true );
 
+    // Bootstrap JS
+    wp_register_script( 'bones-bootstrap', get_stylesheet_directory_uri() . '/library/js/libs/bootstrap.min.js', array(), '3.0.0', true );
 
     // enqueue styles and scripts
     wp_enqueue_script( 'bones-modernizr' );
@@ -167,12 +164,9 @@ function bones_scripts_and_styles() {
     wp_enqueue_script( 'jquery' );
     wp_enqueue_script( 'bones-js' );
     wp_enqueue_script( 'bones-bootstrap' );
-    wp_enqueue_script( 'fitvids');
-    wp_enqueue_script( 'fitvids-xtra');
 
   }
 }
-
 
 /*********************
 THEME SUPPORT
@@ -225,6 +219,7 @@ function bones_theme_support() {
 	register_nav_menus(
 		array(
 			'main-nav' => __( 'The Main Menu', 'bonestheme' ),   // main nav in header
+			'footer-links' => __( 'Footer Links', 'bonestheme' ) // secondary nav in footer
 		)
 	);
 } /* end bones theme support */
@@ -238,31 +233,49 @@ MENUS & NAVIGATION
 function bones_main_nav() {
 	// display the wp3 menu if available
     wp_nav_menu(array(
-    	'container' => false,                           			// remove nav container
-    	'container_class' => 'menu clearfix',           			// class of container (should you choose to use it)
-    	'menu' => __( 'The Main Menu', 'bonestheme' ),  			// nav name
-    	'menu_class' => 'nav navbar-nav navbar-right',  			// adding custom nav class
-    	'theme_location' => 'main-nav',                 			// where it's located in the theme
-    	'before' => '',                                 			// before the menu
-      'after' => '',                                  			// after the menu
-      'link_before' => '',                            			// before each link
-      'link_after' => '',                             			// after each link
-      'depth' => 2,                                   			// limit the depth of the nav
-      'fallback_cb' => 'wp_bootstrap_navwalker::fallback',	// fallback
-    	'walker' => new wp_bootstrap_navwalker()        			// for bootstrap nav
+    	'container' => false,                           // remove nav container
+    	'container_class' => 'menu clearfix',           // class of container (should you choose to use it)
+    	'menu' => __( 'The Main Menu', 'bonestheme' ),  // nav name
+    	'menu_class' => 'nav navbar-nav navbar-right', 
+    	'data-toggle' => 'dropdown',  					// adding custom nav class
+    	'theme_location' => 'main-nav',                 // where it's located in the theme
+    	'before' => '',                                 // before the menu
+      'after' => '',                                  	// after the menu
+      'link_before' => '',                            	// before each link
+      'link_after' => '',                             	// after each link
+      'depth' => 2,                                   	// limit the depth of the nav
+    	'walker' => new wp_bootstrap_navwalker()        // for bootstrap nav
 	));
 } /* end bones main nav */
+
+// the footer menu (should you choose to use one)
+function bones_footer_links() {
+	// display the wp3 menu if available
+    wp_nav_menu(array(
+    	'container' => '',                              // remove nav container
+    	'container_class' => 'footer-links clearfix',   // class of container (should you choose to use it)
+    	'menu' => __( 'Footer Links', 'bonestheme' ),   // nav name
+    	'menu_class' => 'nav footer-nav clearfix',      // adding custom nav class
+    	'theme_location' => 'footer-links',             // where it's located in the theme
+    	'before' => '',                                 // before the menu
+      'after' => '',                                  	// after the menu
+      'link_before' => '',                            	// before each link
+      'link_after' => '',                             	// after each link
+      'depth' => 0,                                   	// limit the depth of the nav
+    	'fallback_cb' => 'bones_footer_links_fallback', // fallback function
+	));
+} /* end bones footer link */
 
 // this is the fallback for header menu
 function bones_main_nav_fallback() {
 	wp_page_menu( array(
 		'show_home' => true,
-    	'menu_class' => 'nav top-nav clearfix',      // adding custom nav class
+    	'menu_class' => 'nav top-nav clearfix',      	// adding custom nav class
 		'include'     => '',
 		'exclude'     => '',
 		'echo'        => true,
         'link_before' => '',                            // before each link
-        'link_after' => ''                             // after each link
+        'link_after' => ''                             	// after each link
 	) );
 }
 
@@ -343,7 +356,7 @@ function bones_filter_ptags_on_images($content){
 function bones_excerpt_more($more) {
 	global $post;
 	// edit here if you like
-return '...</p><p><a class="excerpt-read-more btn btn-primary" href="'. get_permalink($post->ID) . '" title="'. __( 'Read', 'bonestheme' ) . get_the_title($post->ID).'">'. __( 'Read More', 'bonestheme' ) .'</a>';
+return '...  <a class="excerpt-read-more" href="'. get_permalink($post->ID) . '" title="'. __( 'Read', 'bonestheme' ) . get_the_title($post->ID).'">'. __( 'Reads more &raquo;', 'bonestheme' ) .'</a>';
 }
 
 /*

@@ -29,7 +29,7 @@ if (!window.getComputedStyle) {
 
 // as the page loads, call these scripts
 jQuery(document).ready(function($) {
-
+    $('.dropdown-toggle').dropdown()
     /*
     Responsive jQuery is a tricky thing.
     There's a bunch of different ways to handle
